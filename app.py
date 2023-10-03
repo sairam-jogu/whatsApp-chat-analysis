@@ -71,12 +71,29 @@ if uploaded_file is not None:
                 # pie_chart = plt.pie(pie_df.head()['count'], labels=pie_df.head()['percent'], colors=palette_color, autopct='%0f%%', )
                 # st.pyplot(pie_chart.get_figure())
                 st.dataframe(pie_df)
-                pie_fig = pie_df.plot(kind='pie')
-
-
             # prompt = st.chat_input("Ask about the plots you required")
             # if prompt:
             #     with st.chat_message("user"):
             #         st.write("Hello")
             #         st.bar_chart(data=df,x=names,y=count)
+
+
+
+
+        st.header("Most Frequent Words", divider='rainbow')
+        st.code('''
+                    from wordcloud import WordCloud
+                    def fetch_word_cloud(selected_user,df):
+                        if selected_user != "Overall Analysis":
+                            df = df[df['users'] == selected_user]
+
+                        wc = WordCloud(width=500,height=500,min_font_size=10,background_color='white')
+                        df_wc = wc.generate(df['messages'].str.cat(sep=" "))
+                        return df_wc
+                ''')
+        df_wc = fetchData.fetch_word_cloud(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.imshow(df_wc)
+        st.pyplot(fig)
+
 
