@@ -94,6 +94,45 @@ if uploaded_file is not None:
         df_wc = fetchData.fetch_word_cloud(selected_user,df)
         fig,ax = plt.subplots()
         ax.imshow(df_wc)
+
         st.pyplot(fig)
+
+        st.header("Most Frequent Words",divider="rainbow")
+        df_fw = fetchData.fetch_most_common_words(selected_user,df)
+        # st.dataframe(df_fw)
+        fig,ax = plt.subplots()
+        sns.barplot(data=df_fw,x=df_fw[1],y=df_fw[0],orient='h')
+        plt.xlabel("Count")
+        plt.ylabel("Words")
+        st.pyplot(fig)
+
+
+        st.header("Most Frequent Emojis",divider="rainbow")
+        df_emoji = fetchData.fetch_most_frequent_emojis(selected_user,df)
+        # st.dataframe(df_emoji)
+        st.code('''
+                import re
+                import emoji
+                from collections import Counter
+                def fetch_most_frequent_emojis():
+                    emojis = []
+                    for message in df['messages']:
+                        emojis_in_message = re.findall(r':(?:[^:\s]+):', emoji.demojize(message))
+                        emojis.extend(emojis_in_message)
+                    actual_emojis = [emoji.emojize(emoji_text) for emoji_text in emojis]
+                    emoji_df = pd.DataFrame(Counter(actual_emojis).most_common(len(Counter(actual_emojis))))
+                    return emoji_df
+                ''')
+        col1,col2 = st.columns(2)
+        with col1:
+            fig,ax2 = plt.subplots()
+            # sns.set_palette("Set3")
+            ax2.pie(df_emoji.head()[1],labels=df_emoji.head()[0],autopct='%1.1f%%',startangle=90)
+            ax2.axis('equal')
+            st.pyplot(fig)
+        with col2:
+            fig,ax3 = plt.subplots()
+            sns.barplot(data=df_emoji,x=df_emoji.head()[0],y=df_emoji.head()[1])
+            st.pyplot(fig)
 
 
