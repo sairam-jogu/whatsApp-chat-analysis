@@ -44,6 +44,22 @@ if uploaded_file is not None:
             st.header("Links Shared")
             st.title(links_count)
 
+        st.header("Monthly Analysis", divider='rainbow')
+        timeline = fetchData.fetch_monthly_data(selected_user,df)
+        # st.dataframe(timeline)
+        fig, ax4 = plt.subplots()
+        sns.lineplot(x=timeline['time'],y=timeline['messages'])
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        st.header("Date Wise Analysis", divider='rainbow')
+        date_timeline = fetchData.fetch_dates_data(selected_user,df)
+        fig,ax5 = plt.subplots()
+        sns.lineplot(x=date_timeline['only_date'],y=date_timeline['messages'])
+        plt.xticks(rotation = 'vertical')
+        st.pyplot(fig)
+
+
         if selected_user == 'Overall Analysis':
             st.header("Most Busiest Users",divider='rainbow')
             code2 = '''
@@ -59,13 +75,12 @@ if uploaded_file is not None:
             col1,col2 = st.columns(2)
 
             with col1:
-                busy = sns.barplot(data=df, x=names, y=count)
+                fig,ax1 = plt.subplots()
+                sns.barplot(data=df, x=names, y=count)
                 plt.xticks(rotation="vertical")
-                # plt.figure(figsize=(7,10))
-                busy.set_title("Top 5 Busiest Persons in the group")
-                busy.set_xlabel("User Names")
-                busy.set_ylabel("Messages Count")
-                st.pyplot(busy.get_figure())
+                plt.title("Top 5 Busiest Persons in the group")
+                st.pyplot(fig)
+
             with col2:
                 # palette_color = sns.color_palette('bright')
                 # pie_chart = plt.pie(pie_df.head()['count'], labels=pie_df.head()['percent'], colors=palette_color, autopct='%0f%%', )
