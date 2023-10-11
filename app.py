@@ -54,11 +54,26 @@ if uploaded_file is not None:
 
         st.header("Date Wise Analysis", divider='rainbow')
         date_timeline = fetchData.fetch_dates_data(selected_user,df)
-        fig,ax5 = plt.subplots()
+        # st.dataframe(date_timeline)
+        fig,ax5 = plt.subplots(figsize=(13,8))
+
         sns.lineplot(x=date_timeline['only_date'],y=date_timeline['messages'])
         plt.xticks(rotation = 'vertical')
         st.pyplot(fig)
 
+        st.header("Week Wise Analysis",divider='rainbow')
+        week_timeline = fetchData.fetch_week_data(selected_user,df)
+        fig,ax6 = plt.subplots()
+        sns.barplot(x=week_timeline.index,y=week_timeline.values)
+        st.pyplot(fig)
+
+        st.header("Month Wise Analysis",divider='rainbow')
+        month_timeline = fetchData.fetch_monthly_data(selected_user,df)
+        fig,ax7 = plt.subplots()
+        # st.dataframe(month_timeline)
+        sns.lineplot(x=month_timeline['month'],y=month_timeline['messages'])
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
 
         if selected_user == 'Overall Analysis':
             st.header("Most Busiest Users",divider='rainbow')
@@ -150,4 +165,11 @@ if uploaded_file is not None:
             sns.barplot(data=df_emoji,x=df_emoji.head()[0],y=df_emoji.head()[1])
             st.pyplot(fig)
 
+
+        st.header("Activity Using HeatMap",divider='rainbow')
+        day_activity = fetchData.fetch_activity(selected_user,df)
+        # st.dataframe(day_activity)
+        fig,ax8 = plt.subplots(figsize=(20,10))
+        sns.heatmap(day_activity, cmap='seismic')
+        st.pyplot(fig)
 
