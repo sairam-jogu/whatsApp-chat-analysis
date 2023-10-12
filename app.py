@@ -23,7 +23,7 @@ if uploaded_file is not None:
     st.dataframe(df)
 
     user_list = df['users'].unique().tolist()
-    user_list.remove('Message')
+    # user_list.remove('Message')
     user_list.sort()
     user_list.insert(0, "Overall Analysis")
     selected_user = st.sidebar.selectbox("Show Analysis wrt", user_list)
