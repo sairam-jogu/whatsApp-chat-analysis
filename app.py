@@ -3,7 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import fetchData
 import preprocess
-
+sns.set_style("whitegrid")
+sns.set_palette("husl") 
 st.sidebar.title("Whatsapp -analyzer")
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
