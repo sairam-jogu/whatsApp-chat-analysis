@@ -64,7 +64,7 @@ def fetch_most_frequent_emojis(selected_user,df):
 
 def fetch_monthly_data(selected_user,df):
     if selected_user != 'Overall Analysis':
-        df = df[df['user'] == selected_user]
+        df = df[df['users'] == selected_user]
     timeline = df.groupby(['year','month_num','month']).count()['messages'].reset_index()
     time = []
     for i in range(timeline.shape[0]):
@@ -75,23 +75,23 @@ def fetch_monthly_data(selected_user,df):
 
 def fetch_dates_data(selected_user,df):
     if selected_user != 'Overall Analysis':
-        df = df[df['user'] == selected_user]
+        df = df[df['users'] == selected_user]
     daily_timeline = df.groupby('only_date').count()['messages'].reset_index()
     return daily_timeline
 
 def fetch_week_data(selected_user,df):
     if selected_user != 'Overall Analysis':
-        df = df[df['user'] == selected_user]
+        df = df[df['users'] == selected_user]
     return df['day_name'].value_counts()
 
 def fetch_month_data(selected_user,df):
     if selected_user != 'Overall Analysis':
-        df = df[df['user'] == selected_user]
+        df = df[df['users'] == selected_user]
     return df['month'].value_counts()
 
 def fetch_activity(selected_user,df):
     if selected_user != 'Overall Analysis':
-        df = df[df['user'] == selected_user]
+        df = df[df['users'] == selected_user]
 
     weekely_activity = df.pivot_table(index='day_name', columns="timing", values='messages',
                                       aggfunc='count').fillna(0)
