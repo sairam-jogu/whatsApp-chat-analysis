@@ -91,7 +91,7 @@ if uploaded_file is not None:
 
             with col1:
                 fig,ax1 = plt.subplots()
-                sns.barplot(data=df, x=names, y=count)
+                sns.barplot(x=names, y=count)
                 plt.xticks(rotation="vertical")
                 plt.title("Top 5 Busiest Persons in the group")
                 st.pyplot(fig)
@@ -131,7 +131,7 @@ if uploaded_file is not None:
         df_fw = fetchData.fetch_most_common_words(selected_user,df)
         # st.dataframe(df_fw)
         fig,ax = plt.subplots()
-        sns.barplot(data=df_fw,x=df_fw[1],y=df_fw[0],orient='h')
+        sns.barplot(x=df_fw[1],y=df_fw[0],orient='h')
         plt.xlabel("Count")
         plt.ylabel("Words")
         st.pyplot(fig)
